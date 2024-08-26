@@ -1,1 +1,35 @@
-create txt1
+
+# Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# Load the dataset
+# For this example, we'll use the famous Iris dataset
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class']
+data = pd.read_csv(url, header=None, names=column_names)
+
+# Display the first few rows of the dataset
+print(data.head())
+
+# Split the data into features and target
+X = data.drop('class', axis=1)
+y = data['class']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a decision tree classifier
+clf = DecisionTreeClassifier()
+
+# Train the classifier
+clf.fit(X_train, y_train)
+
+# Make predictions
+y_pred = clf.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
